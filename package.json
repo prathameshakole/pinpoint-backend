@@ -1,0 +1,23 @@
+{
+  "name": "pinpoint-backend",
+  "version": "1.0.0",
+  "description": "pinpoint backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/divy-sh/PinPoint-backend.git"
+  },
+  "author": "divy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/divy-sh/PinPoint-backend/issues"
+  },
+  "homepage": "https://github.com/divy-sh/PinPoint-backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2"
+  }
+}
