@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   date: Date,
   reactions : {
     username: { type: String, required: true, unique: true },
-    type: String
+    reaction: String
   }
 },
   { collection: "users" });
