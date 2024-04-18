@@ -1,6 +1,7 @@
 import * as dao from "./dao.js";
 export default function PostRoutes(app) {
     const createPost = async (req, res) => {
+        console.log(req.body);
         const post = await dao.createPost(req.body);
         res.json(post);
     };
@@ -13,10 +14,10 @@ export default function PostRoutes(app) {
         const posts = await dao.findAllPosts();
         res.json(posts);
     };
-    const findPostById = async (req, res) => {
-        const post = await dao.findPostById(req.params.postId);
-        res.json(post);
-    };
+    const findPostByUser = async(req, res) => {
+        const posts = await dao.findPostsByUser(req.params.userid);
+        res.json(posts)
+    }
     const updatePost = async (req, res) => {
         const { postId } = req.params;
         const status = await dao.updatePost(postId, req.body);
@@ -24,8 +25,8 @@ export default function PostRoutes(app) {
         res.json(status);
     };
     app.post("/api/posts", createPost);
-    app.get("/api/posts", findAllPosts);
-    app.get("/api/posts/:postId", findPostById);
+    app.get("/api/posts/trending", findAllPosts);
+    app.get("/api/posts/:userid", findPostByUser);
     app.put("/api/posts/:postId", updatePost);
     app.delete("/api/posts/:postId", deletePost);
 }

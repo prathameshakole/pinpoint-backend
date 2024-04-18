@@ -1,17 +1,13 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
-  _id : {type: String, required: true, unique: true },
-  username: { type: String, required: true, unique: true },
-  image: Image,
-  location : {
-    longitude: Number,
-    latitude: Number,
+  userid: String, image: Buffer,
+  options: {
+    1: String, 2: String, 3: String, 4: String,
   },
   date: Date,
-  reactions : {
-    username: { type: String, required: true, unique: true },
-    reaction: String
-  }
+  reactions: [{
+    userid: String, reaction: String
+  }]
 },
-  { collection: "users" });
+  { collection: "posts" });
 export default userSchema;
