@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
-  userid: String, image: Buffer,
+  userid: String, image: String,
   options: {
     1: String, 2: String, 3: String, 4: String,
   },
