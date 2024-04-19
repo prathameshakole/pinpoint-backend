@@ -8,7 +8,11 @@ const postSchema = new mongoose.Schema({
   reactions: [
     String
   ],
-  votes: [{String: String}]
+  votes: {
+    type: Map,
+    of: Number,
+    default: new Map(),
+  }
 },
   { collection: "posts" });
 export default postSchema;

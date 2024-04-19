@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema(
       default: "STUDENT",
       enum: ["STUDENT", "FACULTY", "ADMIN", "USER"],
     },
+    following: []
   },
   {
     collection: "users",
