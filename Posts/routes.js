@@ -28,8 +28,7 @@ export default function PostRoutes(app) {
     const findPostOfFollowing = async (req, res) => {
         const userid = req.params.userid;
         const { following } = await userDao.findUserById(userid);
-        const posts = await dao.findPostOfFollowing([...following]);
-        console.log(posts);
+        const posts = await dao.findPostOfFollowing(following);
         res.json(posts)
     }
     const updatePost = async (req, res) => {
