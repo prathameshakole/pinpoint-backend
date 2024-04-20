@@ -21,7 +21,15 @@ export default function PostRoutes(app) {
         res.json(posts);
     };
     const findPostByUser = async (req, res) => {
-        const posts = await dao.findPostsByUser(req.params.userid);
+        const posts = await dao.findPostByUser(req.params.userid);
+        res.json(posts)
+    }
+
+    const findPostOfFollowing = async (req, res) => {
+        const userid = req.params.userid;
+        const { following } = await userDao.findUserById(userid);
+        const posts = await dao.findPostOfFollowing([...following]);
+        console.log(posts);
         res.json(posts)
     }
     const updatePost = async (req, res) => {
@@ -32,6 +40,7 @@ export default function PostRoutes(app) {
     app.post("/api/posts", createPost);
     app.get("/api/posts/trending", findAllPosts);
     app.get("/api/posts/:userid", findPostByUser);
+    app.get("/api/posts/following/:userid", findPostOfFollowing);
     app.put("/api/posts/:postId", updatePost);
     app.delete("/api/posts/:postId", deletePost);
 }
