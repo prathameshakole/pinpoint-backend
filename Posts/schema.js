@@ -5,14 +5,13 @@ const postSchema = new mongoose.Schema({
     1: String, 2: String, 3: String, 4: String,
   },
   date: Date,
-  reactions: [
-    String
-  ],
+  reactions: [],
   votes: {
     type: Map,
     of: Number,
     default: new Map(),
-  }
+  },
+  user: {}
 },
   { collection: "posts" });
 export default postSchema;

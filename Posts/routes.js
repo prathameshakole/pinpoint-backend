@@ -2,6 +2,7 @@ import * as dao from "./dao.js";
 import * as userDao from "../Users/dao.js"
 export default function PostRoutes(app) {
     const createPost = async (req, res) => {
+        delete req.body.user;
         const post = await dao.createPost(req.body);
         res.json(post);
     };
@@ -15,10 +16,11 @@ export default function PostRoutes(app) {
         const postsWithUsers = await Promise.all(
             posts.map(async (post) => {
                 const postUser = await userDao.findUserById(post.userid);
-                return { ...post, user: postUser };
+                post["user"] = postUser;
+                return post;
             })
         );
-        res.json(posts);
+        res.json(postsWithUsers);
     };
     const findPostByUser = async (req, res) => {
         const posts = await dao.findPostByUser(req.params.userid);
@@ -29,7 +31,14 @@ export default function PostRoutes(app) {
         const userid = req.params.userid;
         const { following } = await userDao.findUserById(userid);
         const posts = await dao.findPostOfFollowing(following);
-        res.json(posts)
+        const postsWithUsers = await Promise.all(
+            posts.map(async (post) => {
+                const postUser = await userDao.findUserById(post.userid);
+                post["user"] = postUser;
+                return post;
+            })
+        );
+        res.json(postsWithUsers)
     }
     const updatePost = async (req, res) => {
         const { postId } = req.params;
