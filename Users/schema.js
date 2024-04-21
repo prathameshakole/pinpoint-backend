@@ -7,13 +7,16 @@ const userSchema = mongoose.Schema(
     firstName: String,
     lastName: String,
     email: String,
+    image: String,
+    bio: String,
     dob: Date,
     role: {
       type: String,
       default: "STUDENT",
       enum: ["STUDENT", "ADVERTISER", "ADMIN", "USER","FACULTY"],
     },
-    following: []
+    following: [],
+    follower: []
   },
   {
     collection: "users",

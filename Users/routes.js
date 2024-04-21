@@ -15,8 +15,12 @@ export default function UsersRoutes(app) {
 
   app.get("/api/users/:id", async (req, res) => {
     const id = req.params.id;
-    const user = await dao.findUserById(id);
-    res.json(user);
+    try {
+      const user = await dao.findUserById(id);
+      res.json(user);
+    } catch (e) {
+      res.status(400).send('invalid userid');
+    }
   });
 
   app.post("/api/users", async (req, res) => {
@@ -86,5 +90,31 @@ export default function UsersRoutes(app) {
     } else {
       res.status(401).send("Invalid credentials");
     }
+  });
+
+  app.post("/api/users/follow/:followerId/:followingId/:follow", async (req, res) => {
+    const { followerId, followingId, follow } = req.params;
+    var follower = await dao.findUserById(followerId);
+    var following = await dao.findUserById(followingId);
+    if (follow == 'true') {
+      follower.following = [...follower.following, followingId];
+    } else {
+      follower.following = follower.following.filter((userid) => userid != followingId)
+    }
+    await dao.updateUser(followerId, follower);
+    var following = await dao.findUserById(followingId);
+    if (follow == 'true') {
+      following.follower = [...following.follower, followerId];
+    } else {
+      following.follower = following.follower.filter((userid) => userid != followerId)
+    }
+    await dao.updateUser(followingId, following);
+    res.status(200).send('success');
+  });
+
+  app.post("/api/users/fromList", async (req, res) => {
+    const userids = req.body;
+    const users = await dao.findUsers(userids);
+    res.status(200).send(users);
   });
 }

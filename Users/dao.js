@@ -23,3 +23,14 @@ export const updateUser = (id, user) =>
     userModel.updateOne({ _id: id }, { $set: user });
 
 export const deleteUser = (id) => userModel.deleteOne({ _id: id });
+
+export const findUsers = async (userids) => {
+    const query = { _id: { $in: userids } };
+    return await userModel.find(query)
+        .then(docs => {
+            return docs
+        })
+        .catch(err => {
+            return []
+        });
+}
