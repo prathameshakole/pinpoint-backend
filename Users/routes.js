@@ -111,4 +111,10 @@ export default function UsersRoutes(app) {
     await dao.updateUser(followingId, following);
     res.status(200).send('success');
   });
+
+  app.post("/api/users/fromList", async (req, res) => {
+    const userids = req.body;
+    const users = await dao.findUsers(userids);
+    res.status(200).send(users);
+  });
 }
