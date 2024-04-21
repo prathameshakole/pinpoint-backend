@@ -6,7 +6,8 @@ const adSchema = new mongoose.Schema({
   image: String,
   totalImpressions: Number,
   date: Date,
-  approved: Boolean
+  approved: Boolean,
+  url: String
 },
   { collection: "ads" });
 export default adSchema;
