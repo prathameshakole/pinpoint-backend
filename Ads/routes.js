@@ -14,7 +14,7 @@ export default function AdRoutes(app) {
         res.json(ads);
     };
     const findAdByUser = async (req, res) => {
-        const ads = await dao.findAdsByUser(req.params.userid);
+        const ads = await dao.findAdByUser(req.params.userid);
         res.json(ads)
     }
     const updateAd = async (req, res) => {
@@ -22,7 +22,7 @@ export default function AdRoutes(app) {
         const status = await dao.updateAd(adId, req.body);
         res.json(status);
     };
-    app.ad("/api/ads", createAd);
+    app.post("/api/ads", createAd);
     app.get("/api/ads/", findAllAds);
     app.get("/api/ads/:userid", findAdByUser);
     app.put("/api/ads/:adId", updateAd);

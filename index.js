@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 
 import UserRoutes from "./Users/routes.js";
 import PostRoutes from "./Posts/routes.js";
+import AdRoutes from "./Ads/routes.js";
 
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/pinpoint';
 mongoose.connect(CONNECTION_STRING);
@@ -19,4 +20,5 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 UserRoutes(app);
 PostRoutes(app);
+AdRoutes(app);
 app.listen(4000);

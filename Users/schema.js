@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       default: "STUDENT",
-      enum: ["STUDENT", "FACULTY", "ADMIN", "USER"],
+      enum: ["STUDENT", "ADVERTISER", "ADMIN", "USER","FACULTY"],
     },
     following: [],
     follower: []
