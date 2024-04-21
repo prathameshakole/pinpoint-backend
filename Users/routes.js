@@ -117,4 +117,10 @@ export default function UsersRoutes(app) {
     const users = await dao.findUsers(userids);
     res.status(200).send(users);
   });
+
+  app.get("/api/search/users/:searchTerm", async (req, res) => {
+    const { searchTerm } = req.params;
+    const users = await dao.searchUsers(searchTerm);
+    res.status(200).send(users);
+  });
 }

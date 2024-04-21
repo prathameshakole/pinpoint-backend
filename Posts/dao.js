@@ -17,3 +17,21 @@ export const findPostOfFollowing = async (userids) => {
             return []
         });
 }
+export const searchPosts = async (searchTerm) => {
+    const query = {
+        $or: [
+            { 1: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
+            { 2: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
+            { 3: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
+            { 4: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
+            { 5: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } }
+        ]
+    }
+    return await model.find(query)
+        .then(docs => {
+            return docs
+        })
+        .catch(err => {
+            return []
+        });
+}

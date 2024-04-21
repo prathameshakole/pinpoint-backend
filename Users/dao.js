@@ -34,3 +34,20 @@ export const findUsers = async (userids) => {
             return []
         });
 }
+
+export const searchUsers = async (searchTerm) => {
+    const query = {
+        $or: [
+            { username: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
+            { firstName: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
+            { lastName: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } }
+        ]
+    }
+    return await userModel.find(query)
+        .then(docs => {
+            return docs
+        })
+        .catch(err => {
+            return []
+        });
+}
