@@ -51,7 +51,7 @@ export default function PostRoutes(app) {
         res.status(200).send(posts);
     }
 
-    app.get("/api/search/users/:searchTerm", searchPosts);
+    app.get("/api/search/posts/:searchTerm", searchPosts);
     app.post("/api/posts", createPost);
     app.get("/api/posts/trending", findAllPosts);
     app.get("/api/posts/user/:userid", findPostByUser);

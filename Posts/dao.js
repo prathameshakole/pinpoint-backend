@@ -20,11 +20,11 @@ export const findPostOfFollowing = async (userids) => {
 export const searchPosts = async (searchTerm) => {
     const query = {
         $or: [
-            { 1: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
-            { 2: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
-            { 3: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
-            { 4: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
-            { 5: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } }
+            { 'options.1': { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
+            { 'options.2': { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
+            { 'options.3': { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
+            { 'options.4': { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } },
+            { 'options.5': { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } }
         ]
     }
     return await model.find(query)
