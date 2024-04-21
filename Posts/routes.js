@@ -47,7 +47,7 @@ export default function PostRoutes(app) {
     };
     app.post("/api/posts", createPost);
     app.get("/api/posts/trending", findAllPosts);
-    app.get("/api/posts/:userid", findPostByUser);
+    app.get("/api/posts/user/:userid", findPostByUser);
     app.get("/api/posts/following/:userid", findPostOfFollowing);
     app.put("/api/posts/:postId", updatePost);
     app.delete("/api/posts/:postId", deletePost);
