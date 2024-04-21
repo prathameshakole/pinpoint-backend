@@ -45,7 +45,7 @@ export default function PostRoutes(app) {
         const status = await dao.updatePost(postId, req.body);
         res.json(status);
     };
-    const seatchPosts = async (req, res) => {
+    const searchPosts = async (req, res) => {
         const { searchTerm } = req.params;
         const posts = await dao.searchPosts(searchTerm);
         res.status(200).send(posts);
