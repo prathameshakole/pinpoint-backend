@@ -1,6 +1,12 @@
 import * as dao from "./dao.js";
 import { generateToken, verifyToken, jwtDecode } from "../Jwt.js"
 
+function isValidEmail(email) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  return emailPattern.test(email);
+}
+
 export default function UsersRoutes(app) {
   app.get("/api/users", verifyToken, async (req, res) => {
     const { role } = req.query;
@@ -25,6 +31,14 @@ export default function UsersRoutes(app) {
 
   app.post("/api/users", async (req, res) => {
     const user = req.body;
+    if (!isValidEmail(user.email)) {
+      res.status(400).send('invalid email');
+      return
+    }
+    if (user.password.length < 8) {
+      res.status(400).send('password not valid');
+      return
+    }
     const existingUser = await dao.findUserByUsername(user.username);
     if (existingUser) {
       res.status(400).send("Username already exists");
@@ -53,7 +67,19 @@ export default function UsersRoutes(app) {
 
   app.post("/api/users/register", async (req, res) => {
     const user = req.body;
-    const existingUser = await dao.findUserByUsername(user.username);
+    if (!isValidEmail(user.email)) {
+      res.status(400).send('invalid email');
+      return
+    }
+    if (user.password.length < 8) {
+      res.status(400).send('password not valid');
+      return
+    }
+    if (user.username.length < 3) {
+      res.status(400).send('username too short');
+      return
+    }
+      const existingUser = await dao.findUserByUsername(user.username);
     if (existingUser) {
       res.status(400).send("Username already exists");
       return;

@@ -22,8 +22,18 @@ export default function AdRoutes(app) {
         const status = await dao.updateAd(adId, req.body);
         res.json(status);
     };
+
+    const getRandomAd = async (req, res) => {
+        const ad = await dao.getRandomAd();
+        if (ad == undefined) {
+            return res.status(400).send('failed to load ad');
+        }
+        res.status(200).json(ad);
+    };
+
     app.post("/api/ads", createAd);
     app.get("/api/ads/", findAllAds);
+    app.get("/api/randomad", getRandomAd);
     app.get("/api/ads/:userid", findAdByUser);
     app.put("/api/ads/:adId", updateAd);
     app.delete("/api/ads/:adId", deleteAd);
