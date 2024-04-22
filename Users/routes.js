@@ -75,7 +75,7 @@ export default function UsersRoutes(app) {
       res.status(400).send('password not valid');
       return
     }
-    if (user.username.length < 3) {
+    if (user.username.length < 4) {
       res.status(400).send('username too short');
       return
     }
