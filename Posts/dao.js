@@ -28,7 +28,7 @@ export const searchPosts = async (searchTerm) => {
             { 'options.5': { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } }
         ]
     }
-    return await model.find(query)
+    return await model.find(query).limit(10)
         .then(docs => {
             return docs
         })

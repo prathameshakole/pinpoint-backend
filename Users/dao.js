@@ -57,7 +57,7 @@ export const searchUsers = async (searchTerm) => {
             { lastName: { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } }
         ]
     }
-    return await userModel.find(query)
+    return await userModel.find(query).limit(10)
         .then(docs => {
             return docs
         })
