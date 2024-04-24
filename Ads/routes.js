@@ -28,7 +28,6 @@ export default function AdRoutes(app) {
         if (ad == undefined) {
             return res.status(200).send([]);
         }
-        console.log(ad);
         ad.totalImpressions += 1
         await dao.updateAd(ad._id, ad);
         res.status(200).json(ad);
