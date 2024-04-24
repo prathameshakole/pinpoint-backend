@@ -25,7 +25,7 @@ export const verifyAdmin = (req, res, next) => {
 }
 
 export const verifyAdvertiser = (req, res, next) => {
-    if (req.user.role !== 'ADVERTISE') {
+    if (req.user.role !== 'ADVERTISER') {
         res.status(400).send('ADVERTISER access denied')
         return
     }
