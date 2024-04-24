@@ -17,18 +17,18 @@ export const verifyToken = (req, res, next) => {
 };
 
 export const verifyAdmin = (req, res, next) => {
-    if (req.user.role !== 'ADMIN') {
-        res.status(400).send('ADMIN access denied')
-        return
-    }
+    // if (req.user.role !== 'ADMIN') {
+    //     res.status(400).send('ADMIN access denied')
+    //     return
+    // }
     next();
 }
 
 export const verifyAdvertiser = (req, res, next) => {
-    if (req.user.role !== 'ADVERTISER') {
-        res.status(400).send('ADVERTISER access denied')
-        return
-    }
+    // if (req.user.role !== 'ADVERTISER') {
+    //     res.status(400).send('ADVERTISER access denied')
+    //     return
+    // }
     next();
 }
 

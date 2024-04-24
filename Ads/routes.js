@@ -35,10 +35,10 @@ export default function AdRoutes(app) {
         res.status(200).json(ad);
     };
 
-    app.post("/api/ads", verifyToken, verifyAdvertiser, createAd);
-    app.get("/api/ads/", verifyToken, findAllAds);
+    app.post("/api/ads", createAd);
+    app.get("/api/ads/", findAllAds);
     app.get("/api/randomad", getRandomAd);
-    app.get("/api/ads/:userid", verifyToken, verifyAdvertiser, findAdByUser);
-    app.put("/api/ads/:adId", verifyToken, verifyAdvertiser, updateAd);
-    app.delete("/api/ads/:adId", verifyToken, verifyAdvertiser, deleteAd);
+    app.get("/api/ads/:userid", findAdByUser);
+    app.put("/api/ads/:adId", updateAd);
+    app.delete("/api/ads/:adId", deleteAd);
 }
