@@ -26,7 +26,7 @@ export default function AdRoutes(app) {
     const getRandomAd = async (req, res) => {
         const ad = await dao.getRandomAd();
         if (ad == undefined) {
-            return res.status(400).send('failed to load ad');
+            return res.status(200).send([]);
         }
         res.status(200).json(ad);
     };

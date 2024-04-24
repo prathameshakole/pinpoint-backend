@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 import userModel from "./model.js";
 
 export const findAllUsers = () => userModel.find();
@@ -37,15 +37,14 @@ export const findUsers = async (userids) => {
 
 export const findSuggestedUsers = async (currentUserId) => {
     const currentUser = await userModel.findById(currentUserId);
-    const followingList = currentUser.following;
-    const query = { _id: { $nin: [...followingList, currentUserId] } }
-    return suggestedUsers = await userModel.find(query)
-        .then(docs => {
-            return docs
-        }).catch(err => {
-            return []
+    const followingList = [...currentUser.following, currentUserId].map(e => new mongoose.Types.ObjectId(e));
+    const query = [
+        { $match: { _id: { $nin: followingList } } },
+        { $sample: { size: 3 } }
+    ];
 
-        });
+    const suggestedUsers = await userModel.aggregate(query).catch(err => []);
+    return suggestedUsers;
 };
 
 

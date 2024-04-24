@@ -150,11 +150,9 @@ export default function UsersRoutes(app) {
     res.status(200).send(users);
   });
 
-  app.get("/api/users/suggested", verifyToken, async (req, res) => {
-    const token = req.headers.authorization?.split(" ")[1];
-    const decoded = jwtDecode(token);
-    const currentUserId = decoded.userId;
-    const suggestedUsers = await dao.findSuggestedUsers(currentUserId);
+  app.get("/api/users/suggested/:userid", verifyToken, async (req, res) => {
+    const id = req.params.userid;
+    const suggestedUsers = await dao.findSuggestedUsers(id);
     res.send(suggestedUsers);
   });
 }
