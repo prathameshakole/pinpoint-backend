@@ -35,6 +35,20 @@ export const findUsers = async (userids) => {
         });
 }
 
+export const findSuggestedUsers = async (currentUserId) => {
+    const currentUser = await userModel.findById(currentUserId);
+    const followingList = currentUser.following;
+    const query = { _id: { $nin: [...followingList, currentUserId] } }
+    return suggestedUsers = await userModel.find(query)
+        .then(docs => {
+            return docs
+        }).catch(err => {
+            return []
+
+        });
+};
+
+
 export const searchUsers = async (searchTerm) => {
     const query = {
         $or: [
@@ -51,3 +65,4 @@ export const searchUsers = async (searchTerm) => {
             return []
         });
 }
+

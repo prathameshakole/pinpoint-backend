@@ -79,7 +79,7 @@ export default function UsersRoutes(app) {
       res.status(400).send('username too short');
       return
     }
-      const existingUser = await dao.findUserByUsername(user.username);
+    const existingUser = await dao.findUserByUsername(user.username);
     if (existingUser) {
       res.status(400).send("Username already exists");
       return;
@@ -149,4 +149,13 @@ export default function UsersRoutes(app) {
     const users = await dao.searchUsers(searchTerm);
     res.status(200).send(users);
   });
+
+  app.get("/api/users/suggested", verifyToken, async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    const decoded = jwtDecode(token);
+    const currentUserId = decoded.userId;
+    const suggestedUsers = await dao.findSuggestedUsers(currentUserId);
+    res.send(suggestedUsers);
+  });
 }
+
