@@ -54,8 +54,9 @@ export default function PostRoutes(app) {
     }
     const getPostById = async (req, res) => {
         const { postId } = req.params;
-        const response = await dao.getPostById(postId);
-        res.json(response)
+        var response = await dao.getPostById(postId);
+        response['user'] = await userDao.findUserById(response.userid)
+        res.json(response);
     }
 
     app.get("/api/search/posts/:searchTerm", searchPosts);
