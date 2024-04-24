@@ -5,7 +5,7 @@ export const createAd = (ad) => {
 }
 export const findAllAds = () => model.find();
 export const findAdByUser = (userid) => model.find({ userid: userid });
-export const updateAd = (adId, ad) => { console.log(ad); return model.updateOne({ _id: adId }, { $set: ad })};
+export const updateAd = (adId, ad) => model.updateOne({ _id: adId }, { $set: ad });
 export const deleteAd = (adId) => model.deleteOne({ _id: adId });
 export const getRandomAd = async () => {
   try {

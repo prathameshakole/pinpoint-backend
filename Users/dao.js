@@ -11,9 +11,6 @@ export const findUserByEmail = (email) => userModel.findOne({ email });
 
 export const findUserByUsername = (username) => userModel.findOne({ username });
 
-export const findUserByCredentials = (username, password) =>
-    userModel.findOne({ username, password });
-
 export const createUser = (user) => {
     user._id = new mongoose.Types.ObjectId()
     return userModel.create(user)

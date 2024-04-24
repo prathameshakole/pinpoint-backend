@@ -1,9 +1,11 @@
 import * as dao from "./dao.js";
 import { generateToken, verifyToken, jwtDecode } from "../Jwt.js"
+import bcrypt from 'bcrypt';
+
+const saltRounds = 10;
 
 function isValidEmail(email) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   return emailPattern.test(email);
 }
 
@@ -33,11 +35,11 @@ export default function UsersRoutes(app) {
     const user = req.body;
     if (!isValidEmail(user.email)) {
       res.status(400).send('invalid email');
-      return
+      return;
     }
     if (user.password.length < 8) {
       res.status(400).send('password not valid');
-      return
+      return;
     }
     const existingUser = await dao.findUserByUsername(user.username);
     if (existingUser) {
@@ -45,7 +47,12 @@ export default function UsersRoutes(app) {
       return;
     }
     try {
-      const newUser = await dao.createUser(user);
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+      const newUser = await dao.createUser({
+        ...user,
+        password: hashedPassword
+      });
       res.json(newUser);
     } catch (e) {
       res.status(400).send('invalid data');
@@ -65,34 +72,6 @@ export default function UsersRoutes(app) {
     res.send(status);
   });
 
-  app.post("/api/users/register", async (req, res) => {
-    const user = req.body;
-    if (!isValidEmail(user.email)) {
-      res.status(400).send('invalid email');
-      return
-    }
-    if (user.password.length < 8) {
-      res.status(400).send('password not valid');
-      return
-    }
-    if (user.username.length < 4) {
-      res.status(400).send('username too short');
-      return
-    }
-    const existingUser = await dao.findUserByUsername(user.username);
-    if (existingUser) {
-      res.status(400).send("Username already exists");
-      return;
-    }
-    try {
-      const newUser = await dao.createUser(user);
-      const token = generateToken(newUser);
-      res.json({ token });
-    } catch (e) {
-      res.status(400).send('invalid data');
-    }
-  });
-
   app.post("/api/users/profile", verifyToken, async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
     const decoded = jwtDecode(token)
@@ -106,16 +85,13 @@ export default function UsersRoutes(app) {
 
   app.post("/api/users/signin", async (req, res) => {
     const credentials = req.body;
-    const existingUser = await dao.findUserByCredentials(
-      credentials.username,
-      credentials.password
-    );
-    if (existingUser) {
-      const token = generateToken(existingUser);
-      res.json({ token });
-    } else {
+    const existingUser = await dao.findUserByUsername(credentials.username);
+    if (!existingUser || !bcrypt.compare(existingUser.password, credentials.password)) {
       res.status(401).send("Invalid credentials");
+      return
     }
+    const token = generateToken(existingUser);
+    res.json({ token });
   });
 
   app.post("/api/users/follow/:followerId/:followingId/:follow", async (req, res) => {
