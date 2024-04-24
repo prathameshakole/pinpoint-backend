@@ -4,8 +4,8 @@ export const createPost = (post) => {
     return model.create(post);
 }
 export const findAllPosts = (page, size) => model.find().sort({date: -1}).skip((page - 1) * size).limit(size);
-export const findUserById = (id) => model.findById(id);
 export const findPostByUser = (userid) => model.find({ userid: userid }).sort({date: -1});
+export const getPostById = (postId) => model.findById(postId);
 export const updatePost = (postId, post) => model.updateOne({ _id: postId }, { $set: post });
 export const deletePost = (postId) => model.deleteOne({ _id: postId });
 export const findPostOfFollowing = async (userids) => {
