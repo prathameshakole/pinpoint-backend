@@ -12,7 +12,9 @@ export default function PostRoutes(app) {
 
     };
     const findAllPosts = async (req, res) => {
-        const posts = await dao.findAllPosts();
+        const page = req.query.page;
+        const size = req.query.size;
+        const posts = await dao.findAllPosts(page, size);
         const postsWithUsers = await Promise.all(
             posts.map(async (post) => {
                 const postUser = await userDao.findUserById(post.userid);

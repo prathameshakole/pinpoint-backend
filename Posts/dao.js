@@ -3,7 +3,7 @@ export const createPost = (post) => {
     delete post._id
     return model.create(post);
 }
-export const findAllPosts = () => model.find().sort({date: -1});
+export const findAllPosts = (page, size) => model.find().sort({date: -1}).skip((page - 1) * size).limit(size);
 export const findPostByUser = (userid) => model.find({ userid: userid }).sort({date: -1});
 export const updatePost = (postId, post) => model.updateOne({ _id: postId }, { $set: post });
 export const deletePost = (postId) => model.deleteOne({ _id: postId });
