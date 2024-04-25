@@ -39,6 +39,6 @@ export default function AdRoutes(app) {
     app.get("/api/ads/", verifyToken, findAllAds);
     app.get("/api/randomad", getRandomAd);
     app.get("/api/ads/:userid", verifyToken, verifyAdvertiser, findAdByUser);
-    app.put("/api/ads/:adId", verifyToken, verifyAdvertiser, updateAd);
+    app.put("/api/ads/:adId", verifyToken, updateAd);
     app.delete("/api/ads/:adId", verifyToken, verifyAdvertiser, deleteAd);
 }
