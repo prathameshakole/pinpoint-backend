@@ -1,5 +1,8 @@
 import * as dao from "./dao.js";
 import * as userDao from "../Users/dao.js"
+import { verifyToken } from "../Jwt.js"
+
+
 export default function PostRoutes(app) {
     const createPost = async (req, res) => {
         delete req.body.user;
@@ -66,12 +69,12 @@ export default function PostRoutes(app) {
     }
 
     app.get("/api/search/posts/:searchTerm", searchPosts);
-    app.post("/api/posts", createPost);
+    app.post("/api/posts", verifyToken, createPost);
     app.get("/api/posts/trending", findAllPosts);
     app.get("/api/posts/user/:userid", findPostByUser);
-    app.get("/api/posts/following/:userid", findPostOfFollowing);
+    app.get("/api/posts/following/:userid", verifyToken, findPostOfFollowing);
     app.get("/api/posts/:postId", getPostById);
-    app.put("/api/posts/:postId", updatePost);
-    app.delete("/api/posts/:postId", deletePost);
+    app.put("/api/posts/:postId", verifyToken, updatePost);
+    app.delete("/api/posts/:postId", verifyToken, deletePost);
     app.get("/api/posts/votedbyuser/:userid", getPostsVotedByUser);
 }

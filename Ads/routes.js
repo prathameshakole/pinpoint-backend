@@ -1,5 +1,5 @@
 import * as dao from "./dao.js";
-import { generateToken, verifyToken, jwtDecode, verifyAdvertiser, verifyAdmin } from "../Jwt.js"
+import { verifyToken, verifyAdvertiser } from "../Jwt.js"
 
 export default function AdRoutes(app) {
     const createAd = async (req, res) => {

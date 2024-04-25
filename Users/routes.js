@@ -60,7 +60,7 @@ export default function UsersRoutes(app) {
     }
   });
 
-  app.put("/api/users/:id", async (req, res) => {
+  app.put("/api/users/:id", verifyToken, async (req, res) => {
     const id = req.params.id;
     const user = req.body;
     if (!isValidEmail(user.email)) {
@@ -101,7 +101,7 @@ export default function UsersRoutes(app) {
     }
   });
 
-  app.delete("/api/users/:id", async (req, res) => {
+  app.delete("/api/users/:id", verifyToken, async (req, res) => {
     const id = req.params.id;
     const status = await dao.deleteUser(id);
     res.send(status);
@@ -134,7 +134,7 @@ export default function UsersRoutes(app) {
     res.json({ token });
   });
 
-  app.post("/api/users/follow/:followerId/:followingId/:follow", async (req, res) => {
+  app.post("/api/users/follow/:followerId/:followingId/:follow", verifyToken, async (req, res) => {
     const { followerId, followingId, follow } = req.params;
     var follower = await dao.findUserById(followerId);
     var following = await dao.findUserById(followingId);
