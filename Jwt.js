@@ -37,7 +37,8 @@ export const generateToken = (user) => {
         username: user.username,
         userId: user._id,
         firstName: user.firstName,
-        lastName: user.lastName
+        lastName: user.lastName,
+        role: user.role
     };
     const secret = process.env.JWT_SECRET;
     const options = { expiresIn: '60d' };

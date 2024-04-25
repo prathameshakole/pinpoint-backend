@@ -25,6 +25,7 @@ export default function UsersRoutes(app) {
     const id = req.params.id;
     try {
       const user = await dao.findUserById(id);
+      delete user.password;
       res.json(user);
     } catch (e) {
       res.status(400).send('invalid userid');
@@ -62,8 +63,40 @@ export default function UsersRoutes(app) {
   app.put("/api/users/:id", async (req, res) => {
     const id = req.params.id;
     const user = req.body;
-    await dao.updateUser(id, user);
-    res.status(200).send("success");
+    if (!isValidEmail(user.email)) {
+      res.status(400).send('invalid email');
+      return;
+    }
+    const existingUser = await dao.findUserByUsername(user.username);
+    if (existingUser && existingUser._id != id) {
+      res.status(400).send("Username already taken");
+      return;
+    }
+    try {
+      await dao.updateUser(id, user);
+      res.status(200).send("success");
+    } catch (e) {
+      res.status(400).send("error in updating user, try again")
+    }
+  });
+
+  app.put("/api/users/password/:id", verifyToken, async (req, res) => {
+    const id = req.user.userId;
+    const password = req.body.password;
+    if (password.length < 8) {
+      res.status(400).send('password not valid');
+      return;
+    }
+    var existingUser = await dao.findUserById(id);
+    try {
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      existingUser.password = hashedPassword;
+      await dao.updateUser(id, existingUser);
+      res.status(200).send('success');
+    } catch (e) {
+      res.status(400).send('invalid data');
+    }
   });
 
   app.delete("/api/users/:id", async (req, res) => {
@@ -86,7 +119,12 @@ export default function UsersRoutes(app) {
   app.post("/api/users/signin", async (req, res) => {
     const credentials = req.body;
     const existingUser = await dao.findUserByUsername(credentials.username);
-    if (!existingUser || !bcrypt.compare(existingUser.password, credentials.password)) {
+    if (!existingUser) {
+      res.status(401).send("Invalid credentials");
+      return
+    }
+    const success = await bcrypt.compare(credentials.password, existingUser.password);
+    if (!success) {
       res.status(401).send("Invalid credentials");
       return
     }

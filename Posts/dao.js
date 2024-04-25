@@ -5,7 +5,7 @@ export const createPost = (post) => {
 }
 export const findAllPosts = (page, size) => model.find().sort({date: -1}).skip((page - 1) * size).limit(size);
 export const findPostByUser = (userid) => model.find({ userid: userid }).sort({date: -1});
-export const getPostById = (postId) => model.findById(postId);
+export const getPostById = (postId) => model.findById(postId).sort({date: -1});
 export const updatePost = (postId, post) => model.updateOne({ _id: postId }, { $set: post });
 export const deletePost = (postId) => model.deleteOne({ _id: postId });
 export const findPostOfFollowing = async (userids) => {
@@ -28,7 +28,7 @@ export const searchPosts = async (searchTerm) => {
             { 'options.5': { $regex: new RegExp(`.*${searchTerm}.*`, 'i') } }
         ]
     }
-    return await model.find(query).limit(10)
+    return await model.find(query).limit(10).sort({date: -1})
         .then(docs => {
             return docs
         })
@@ -36,3 +36,13 @@ export const searchPosts = async (searchTerm) => {
             return []
         });
 }
+
+export const getPostsVotedByUser = async (userid) => {
+    try {
+      const posts = await model.find({ [`votes.${userid}`]: { $exists: true } }).sort({date: -1});
+      return posts;
+    } catch (error) {
+      console.error("Error:", error);
+      return [];
+    }
+  };

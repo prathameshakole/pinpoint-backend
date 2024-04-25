@@ -59,6 +59,12 @@ export default function PostRoutes(app) {
         res.json(response);
     }
 
+    const getPostsVotedByUser = async (req, res) => {
+        const id = req.params.userid;
+        const votedPosts = await dao.getPostsVotedByUser(id);
+        res.send(votedPosts);
+    }
+
     app.get("/api/search/posts/:searchTerm", searchPosts);
     app.post("/api/posts", createPost);
     app.get("/api/posts/trending", findAllPosts);
@@ -67,4 +73,5 @@ export default function PostRoutes(app) {
     app.get("/api/posts/:postId", getPostById);
     app.put("/api/posts/:postId", updatePost);
     app.delete("/api/posts/:postId", deletePost);
+    app.get("/api/posts/votedbyuser/:userid", getPostsVotedByUser);
 }
