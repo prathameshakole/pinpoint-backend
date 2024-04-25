@@ -67,14 +67,16 @@ export default function UsersRoutes(app) {
       res.status(400).send('invalid email');
       return;
     }
-    const existingUser = await dao.findUserByUsername(user.username);
+    const existingUser = await dao.findUserById(id);
     if (existingUser && existingUser._id != id) {
       res.status(400).send("Username already taken");
       return;
     }
     try {
       await dao.updateUser(id, user);
-      res.status(200).send("success");
+      const updatedUser = await dao.findUserById(id);
+      const token = generateToken(updatedUser);
+      res.status(200).send({ token });
     } catch (e) {
       res.status(400).send("error in updating user, try again")
     }
