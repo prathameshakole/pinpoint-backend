@@ -21,21 +21,6 @@ Before setting up the project, ensure that Node.js is installed on your system. 
    npm install
    ```
 
-3. **Configure Environment Variables**:
-
-   Create a `.env` file in the project root directory and add the following environment variables:
-
-   ```env
-   MONGODB_URL="your_mongodb_connection_string"
-   JWT_SECRET="your_jwt_secret_key"
-   EMAILJS_PRIVATE_KEY="your_emailjs_private_key"
-   EMAILJS_TEMPLATEID="your_emailjs_template_id"
-   EMAILJS_SERVICEID="your_emailjs_service_id"
-   EMAILJS_PUBLIC_KEY="your_emailjs_public_key"
-   ```
-
-   Replace the placeholder values with your actual credentials.
-
 ### Starting the Server
 
 To start the development server, run:
