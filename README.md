@@ -21,6 +21,13 @@ Before setting up the project, ensure that Node.js is installed on your system. 
    npm install
    ```
 
+3. **Setup Environment Variables**:
+
+   ```bash
+   FRONTEND_URL=http://localhost:3000
+   JWT_SECRET=your_jwt_secret
+   ```
+
 ### Starting the Server
 
 To start the development server, run:
