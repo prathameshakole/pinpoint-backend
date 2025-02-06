@@ -1,5 +1,5 @@
-import * as dao from "./dao.js";
-import { generateToken, verifyToken, jwtDecode } from "../Jwt.js"
+import * as dao from "../dao/UserDao.js"
+import { generateToken, verifyToken, jwtDecode } from "../config/Jwt.js"
 import bcrypt from 'bcrypt';
 
 const saltRounds = 10;

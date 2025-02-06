@@ -1,4 +1,4 @@
-import model from "./model.js";
+import model from "../models/AdModel.js";
 export const createAd = (ad) => {
   delete ad._id
   return model.create(ad);

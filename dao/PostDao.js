@@ -1,4 +1,4 @@
-import model from "./model.js";
+import model from "../models/PostModel.js";
 export const createPost = (post) => {
     delete post._id
     return model.create(post);

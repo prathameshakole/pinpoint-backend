@@ -4,9 +4,9 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import bodyParser from 'body-parser';
 
-import UserRoutes from "./Users/routes.js";
-import PostRoutes from "./Posts/routes.js";
-import AdRoutes from "./Ads/routes.js";
+import UserRoutes from "./routes/UserRoutes.js";
+import PostRoutes from "./routes/PostRoutes.js";
+import AdRoutes from "./routes/AdRoutes.js";
 
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/pinpoint';
 mongoose.connect(CONNECTION_STRING);

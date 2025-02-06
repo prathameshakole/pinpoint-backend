@@ -1,6 +1,5 @@
-import * as dao from "./dao.js";
-import * as userDao from "../Users/dao.js"
-import { verifyToken } from "../Jwt.js"
+import * as dao from "../dao/PostDao.js"
+import { verifyToken } from "../config/Jwt.js"
 
 
 export default function PostRoutes(app) {
