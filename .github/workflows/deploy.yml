@@ -23,4 +23,4 @@ jobs:
       run: |
         zip -r application.zip . -x "*.git*"
         aws elasticbeanstalk create-application-version --application-name pinpoint-backend --version-label v1 --source-bundle S3Bucket="pinpoint",S3Key="application.zip"
-        aws elasticbeanstalk update-environment --application-name pinpoint-backend --environment-name pinpoint-env --version-label v1
+        aws elasticbeanstalk update-environment --application-name pinpoint-backend --environment-name pinpoint-backend-env --version-label v1
