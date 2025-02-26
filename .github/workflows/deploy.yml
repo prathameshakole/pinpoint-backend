@@ -28,5 +28,20 @@ jobs:
     - name: Deploy to Elastic Beanstalk
       run: |
         zip -r application.zip . -x "*.git*"
-        aws elasticbeanstalk create-application-version --application-name pinpoint-backend --version-label v1 --source-bundle S3Bucket="pinpoint-uploads",S3Key="application.zip"
-        aws elasticbeanstalk update-environment --application-name pinpoint-backend --environment-name pinpoint-backend-env --version-label v1
+        aws elasticbeanstalk delete-application-version \
+          --application-name pinpoint-backend \
+          --version-label v1 \
+          --delete-source-bundle || true
+        
+        # Create the application version
+        aws elasticbeanstalk create-application-version \
+          --application-name pinpoint-backend \
+          --version-label v1 \
+          --source-bundle S3Bucket="pinpoint-uploads",S3Key="application.zip"
+        
+        # Update the environment to use the new version
+        aws elasticbeanstalk update-environment \
+          --application-name pinpoint-backend \
+          --environment-name pinpoint-backend-env \
+          --version-label v1
+
