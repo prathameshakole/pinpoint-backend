@@ -19,8 +19,14 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  
+
+    - name: Deploy to S3
+      run: |
+        zip -r application.zip . -x "*.git*"
+        aws s3 cp application.zip s3://pinpoint/application.zip
+        
     - name: Deploy to Elastic Beanstalk
       run: |
         zip -r application.zip . -x "*.git*"
-        aws elasticbeanstalk create-application-version --application-name pinpoint-backend --version-label v1 --source-bundle S3Bucket="pinpoint",S3Key="application.zip"
+        aws elasticbeanstalk create-application-version --application-name pinpoint-backend --version-label v1 --source-bundle S3Bucket="pinpoint-uploads",S3Key="application.zip"
         aws elasticbeanstalk update-environment --application-name pinpoint-backend --environment-name pinpoint-backend-env --version-label v1
