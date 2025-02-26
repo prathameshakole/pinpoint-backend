@@ -23,7 +23,7 @@ jobs:
     - name: Deploy to S3
       run: |
         zip -r application.zip . -x "*.git*"
-        aws s3 cp application.zip s3://pinpoint/application.zip
+        aws s3 cp application.zip s3://pinpoint-uploads/application.zip
         
     - name: Deploy to Elastic Beanstalk
       run: |
