@@ -21,5 +21,13 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 UserRoutes(app);
 PostRoutes(app);
 AdRoutes(app);
+
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
+app.get('/', (req, res) => {
+    res.status(200).send('Backend is running!');
+});
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
