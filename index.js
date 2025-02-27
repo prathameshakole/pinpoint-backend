@@ -21,5 +21,5 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 UserRoutes(app);
 PostRoutes(app);
 AdRoutes(app);
-const PORT = 4000 || 8080;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
